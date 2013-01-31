@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import org.mycompany.jaxrs.theme.Theme;
 
 /**
  *
@@ -15,45 +16,49 @@ import javax.imageio.ImageIO;
  */
 public class PictureGenerator
 {
-    private final static int CELL_SIZE = 50;
-    private final static int OFFSET = 25;
     private final int CELL_AMMOUNT = 8;
-    private final static Color BLACK_COLOR = Color.DARK_GRAY;
-    private final static Color WHITE_COLOR = Color.WHITE;
+    private Theme theme;
+
+
+    public void setTheme(Theme theme)
+    {
+        this.theme = theme;
+    }
 
 
     private BufferedImage drawEmptyChessBoard()
     {
-
+        int cellSize = theme.getCellSize();
+        int offset = theme.getOffsetFromCanvas();
         BufferedImage chessBoard = new BufferedImage(
-                CELL_AMMOUNT * CELL_SIZE + 2 * OFFSET,
-                CELL_AMMOUNT * CELL_SIZE + 2 * OFFSET,
+                CELL_AMMOUNT * cellSize + 2 * offset,
+                CELL_AMMOUNT * cellSize + 2 * offset,
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = chessBoard.getGraphics();
         //draw cells
         for (int i = 0; i < CELL_AMMOUNT; i++) {
             for (int j = 0; j < CELL_AMMOUNT; j++) {
-                Color currentCellColor = ((i + j) % 2 == 0) ? WHITE_COLOR : BLACK_COLOR;
+                Color currentCellColor = ((i + j) % 2 == 0) ? theme.getWhiteCellColor() : theme.getBlackCellColor();
                 g.setColor(currentCellColor);
-                g.fillRect(OFFSET + i * CELL_SIZE, OFFSET + (CELL_AMMOUNT - j - 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                g.fillRect(offset + i * cellSize, offset + (CELL_AMMOUNT - j - 1) * cellSize, cellSize, cellSize);
             }
         }
         //draw border
-        g.setColor(BLACK_COLOR);
-        g.drawRect(0, 0, CELL_AMMOUNT * CELL_SIZE + 2 * OFFSET - 1, CELL_AMMOUNT * CELL_SIZE + 2 * OFFSET - 1);
+        g.setColor(theme.getBlackCellColor());
+        g.drawRect(0, 0, CELL_AMMOUNT * cellSize + 2 * offset - 1, CELL_AMMOUNT * cellSize + 2 * offset - 1);
         //draw line numbers
-        g.setColor(WHITE_COLOR);
+        g.setColor(theme.getWhiteCellColor());
         for (int i = 0; i < CELL_AMMOUNT; i++) {
             String str = String.valueOf(i + 1);
             g.drawChars(str.toCharArray(), 0, str.length(),
-                    OFFSET / 2,
-                    OFFSET + (CELL_AMMOUNT - i - 1) * CELL_SIZE + CELL_SIZE / 2);
+                    offset / 2,
+                    offset + (CELL_AMMOUNT - i - 1) * cellSize + cellSize / 2);
         }
         //draw letters
         for (int i = 0; i < CELL_AMMOUNT; i++) {
             g.drawChars(new char[]{(char) (i + 65)}, 0, 1,
-                    OFFSET + CELL_SIZE / 2 + i * CELL_SIZE,
-                    OFFSET + CELL_AMMOUNT * CELL_SIZE + OFFSET / 2);
+                    offset + cellSize / 2 + i * cellSize,
+                    offset + CELL_AMMOUNT * cellSize + offset / 2);
         }
         g.dispose();
         return chessBoard;
@@ -62,16 +67,17 @@ public class PictureGenerator
 
     private BufferedImage addFiguresToLine(BufferedImage board, int lineNumber, Character[] figures)
     {
-        FigureImageFactory factory = new FigureImageFactory();
+        int cellSize = theme.getCellSize();
+        int offsetFromCanvas = theme.getOffsetFromCanvas();
         Graphics g = board.getGraphics();
         for (int i = 0; i < figures.length; i++) {
             if (figures[i] != null) {
-                BufferedImage figureImage = factory.getImage(figures[i]);
+                BufferedImage figureImage = theme.getFigureByCode(figures[i]);
                 int offsetFromCellBorder = 0;
                 g.drawImage(
                         figureImage,
-                        OFFSET + i * CELL_SIZE + offsetFromCellBorder,
-                        OFFSET + (CELL_AMMOUNT - lineNumber) * CELL_SIZE + offsetFromCellBorder, null);
+                        offsetFromCanvas + i * cellSize + offsetFromCellBorder,
+                        offsetFromCanvas + (CELL_AMMOUNT - lineNumber) * cellSize + offsetFromCellBorder, null);
             }
         }
         g.dispose();

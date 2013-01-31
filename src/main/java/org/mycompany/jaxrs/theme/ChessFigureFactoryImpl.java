@@ -1,4 +1,4 @@
-package org.mycompany.jaxrs;
+package org.mycompany.jaxrs.theme;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -8,8 +8,9 @@ import javax.imageio.ImageIO;
  *
  * @author artyukhov
  */
-public class FigureImageFactory
+public class ChessFigureFactoryImpl implements FigureFactory
 {
+    @Override
     public BufferedImage getImage(char fenCode)
     {
         try {

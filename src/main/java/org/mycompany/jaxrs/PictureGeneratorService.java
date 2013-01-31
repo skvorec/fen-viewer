@@ -6,6 +6,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.mycompany.jaxrs.theme.ThemeFactory;
 
 /**
  *
@@ -15,11 +16,12 @@ import javax.ws.rs.core.Response;
 public class PictureGeneratorService
 {
     @GET
-    @Path("/")
+    @Path("/chess")
     @Produces("image/*")
-    public Response images(@QueryParam("fen") String fen)
+    public Response chessBoard(@QueryParam("fen") String fen)
     {
         PictureGenerator generator = new PictureGenerator();
+        generator.setTheme(new ThemeFactory().createTheme("default"));
         byte[] image;
         try {
             image = generator.createBoard(fen);
