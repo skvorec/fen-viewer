@@ -1,6 +1,7 @@
 package org.mycompany.jaxrs.theme;
 
 import java.awt.image.BufferedImage;
+import org.mycompany.jaxrs.ChessFigure;
 
 /**
  *
@@ -8,5 +9,5 @@ import java.awt.image.BufferedImage;
  */
 public interface FigureFactory 
 {
-    BufferedImage getImage(char imageCode);
+    BufferedImage getImage(ChessFigure imageCode);
 }

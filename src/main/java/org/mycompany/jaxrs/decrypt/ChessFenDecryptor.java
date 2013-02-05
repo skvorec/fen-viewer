@@ -2,19 +2,20 @@ package org.mycompany.jaxrs.decrypt;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.mycompany.jaxrs.ChessFigure;
 
 /**
  *
  * @author artyukhov
  */
-public class FenDecryptor
+public class ChessFenDecryptor
 {
     private final int CELL_AMMOUNT = 8;
 
 
-    public Character[][] decryptFen(String fen)
+    public ChessFigure[][] decryptFen(String fen)
     {
-        Character[][] result = new Character[CELL_AMMOUNT][CELL_AMMOUNT];
+        ChessFigure[][] result = new ChessFigure[CELL_AMMOUNT][CELL_AMMOUNT];
         String[] rows = fen.split("/");
         if (rows.length != CELL_AMMOUNT) {
             throw new IllegalStateException("You need to describe not " + rows.length
@@ -22,7 +23,7 @@ public class FenDecryptor
         }
 
         for (int i = 0; i < rows.length; i++) {
-            Character[] figuresCode = getCharArray(rows[i]);
+            ChessFigure[] figuresCode = getFigureArray(rows[i]);
             if (figuresCode.length != CELL_AMMOUNT) {
                 throw new IllegalStateException("You need to describe not " + figuresCode.length
                         + " but " + CELL_AMMOUNT + " cells in line " + (CELL_AMMOUNT - i) + "(" + rows[i] + ")" + "!");
@@ -45,9 +46,9 @@ public class FenDecryptor
     }
 
 
-    protected Character[] getCharArray(String rowInFen)
+    protected ChessFigure[] getFigureArray(String rowInFen)
     {
-        List<Character> result = new ArrayList<Character>();
+        List<ChessFigure> result = new ArrayList<ChessFigure>();
         List<Character> numberBuffer = new ArrayList<Character>();
 
         for (int i = 0; i < rowInFen.length(); i++) {
@@ -63,7 +64,7 @@ public class FenDecryptor
                         result.add(null);
                     }
                 }
-                result.add(current);
+                result.add(ChessFigure.byFenCode(current));
             }
         }
         //if ends with number
@@ -73,6 +74,6 @@ public class FenDecryptor
                 result.add(null);
             }
         }
-        return result.toArray(new Character[result.size()]);
+        return result.toArray(new ChessFigure[result.size()]);
     }
 }

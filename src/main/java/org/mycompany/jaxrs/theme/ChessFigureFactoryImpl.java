@@ -3,6 +3,8 @@ package org.mycompany.jaxrs.theme;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.mycompany.jaxrs.ChessFigure;
+import static org.mycompany.jaxrs.ChessFigure.*;
 
 /**
  *
@@ -10,51 +12,60 @@ import javax.imageio.ImageIO;
  */
 public class ChessFigureFactoryImpl implements FigureFactory
 {
+    private final String folderPrefix;
+
+
+    public ChessFigureFactoryImpl(String folderPrefix)
+    {
+        this.folderPrefix = folderPrefix;
+    }
+
+
     @Override
-    public BufferedImage getImage(char fenCode)
+    public BufferedImage getImage(ChessFigure figure)
     {
         try {
             BufferedImage image;
 
-            switch (fenCode) {
-                case 'p':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/bp.svg"));
+            switch (figure) {
+                case BP:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/bp.png"));
                     break;
-                case 'r':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/br.svg"));
+                case BR:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/br.png"));
                     break;
-                case 'n':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/bn.svg"));
+                case BN:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/bn.png"));
                     break;
-                case 'b':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/bb.svg"));
+                case BB:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/bb.png"));
                     break;
-                case 'q':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/bq.svg"));
+                case BQ:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/bq.png"));
                     break;
-                case 'k':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/bk.svg"));
+                case BK:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/bk.png"));
                     break;
-                case 'P':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/wp.svg"));
+                case WP:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/wp.png"));
                     break;
-                case 'R':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/wr.svg"));
+                case WR:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/wr.png"));
                     break;
-                case 'N':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/wn.svg"));
+                case WN:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/wn.png"));
                     break;
-                case 'B':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/wb.svg"));
+                case WB:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/wb.png"));
                     break;
-                case 'Q':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/wq.svg"));
+                case WQ:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/wq.png"));
                     break;
-                case 'K':
-                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/wk.svg"));
+                case WK:
+                    image = ImageIO.read(getClass().getResourceAsStream("/pictures/chess/" + folderPrefix + "/wk.png"));
                     break;
                 default:
-                    throw new IllegalStateException("Incorrect fen code: " + fenCode);
+                    throw new IllegalStateException("Incorrect fen code: " + figure);
             }
 
             return image;

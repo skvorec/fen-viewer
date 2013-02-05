@@ -32,6 +32,9 @@ public class PictureGenerator
                 cellAmmount * cellSize + 2 * offset,
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = chessBoard.getGraphics();
+        //draw background
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, cellAmmount * cellSize + 2 * offset, cellAmmount * cellSize + 2 * offset);
         //draw cells
         for (int i = 0; i < cellAmmount; i++) {
             for (int j = 0; j < cellAmmount; j++) {
@@ -41,10 +44,10 @@ public class PictureGenerator
             }
         }
         //draw border
-        g.setColor(theme.getBlackCellColor());
+        g.setColor(theme.getBorderColor());
         g.drawRect(0, 0, cellAmmount * cellSize + 2 * offset - 1, cellAmmount * cellSize + 2 * offset - 1);
         //draw line numbers
-        g.setColor(theme.getWhiteCellColor());
+        g.setColor(Color.BLACK);
         for (int i = 0; i < cellAmmount; i++) {
             String str = String.valueOf(i + 1);
             g.drawChars(str.toCharArray(), 0, str.length(),
@@ -53,7 +56,7 @@ public class PictureGenerator
         }
         //draw letters
         for (int i = 0; i < cellAmmount; i++) {
-            g.drawChars(new char[]{(char) (i + 65)}, 0, 1,
+            g.drawChars(new char[]{(char) (i + 97)}, 0, 1,
                     offset + cellSize / 2 + i * cellSize,
                     offset + cellAmmount * cellSize + offset / 2);
         }
@@ -62,7 +65,7 @@ public class PictureGenerator
     }
 
 
-    private BufferedImage addFiguresToLine(BufferedImage board, int lineNumber, Character[] figures)
+    private BufferedImage addFiguresToLine(BufferedImage board, int lineNumber, ChessFigure[] figures)
     {
         int cellAmmount = figures.length;
         int cellSize = theme.getCellSize();
@@ -83,12 +86,12 @@ public class PictureGenerator
     }
 
 
-    public byte[] createBoard(Character[][] position)
+    public byte[] createBoard(ChessFigure[][] position)
     {
         int cellAmmount = position.length;
         BufferedImage board = drawEmptyChessBoard(cellAmmount);
         for (int i = 0; i < cellAmmount; i++) {
-            Character[] figuresCode = position[i];
+            ChessFigure[] figuresCode = position[i];
             addFiguresToLine(board, cellAmmount - i, figuresCode);
         }
         try {

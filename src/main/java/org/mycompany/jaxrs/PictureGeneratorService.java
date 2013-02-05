@@ -6,7 +6,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.mycompany.jaxrs.decrypt.FenDecryptor;
+import org.mycompany.jaxrs.decrypt.ChessFenDecryptor;
 import org.mycompany.jaxrs.theme.ThemeFactory;
 
 /**
@@ -26,8 +26,8 @@ public class PictureGeneratorService
             if (fen == null) {
                 throw new IllegalStateException("Please, write FEN in \'fen\' query parameter!");
             }
-            FenDecryptor decryptor = new FenDecryptor();
-            Character[][] position = decryptor.decryptFen(fen);
+            ChessFenDecryptor decryptor = new ChessFenDecryptor();
+            ChessFigure[][] position = decryptor.decryptFen(fen);
             PictureGenerator generator = new PictureGenerator();
             generator.setTheme(new ThemeFactory().createTheme(theme));
 

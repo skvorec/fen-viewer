@@ -2,6 +2,7 @@ package org.mycompany.jaxrs.theme;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import org.mycompany.jaxrs.ChessFigure;
 
 /**
  *
@@ -21,5 +22,8 @@ public interface Theme
     Color getWhiteCellColor();
 
 
-    BufferedImage getFigureByCode(char imageCode);
+    Color getBorderColor();
+
+
+    BufferedImage getFigureByCode(ChessFigure imageCode);
 }

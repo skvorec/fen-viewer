@@ -2,6 +2,7 @@ package org.mycompany.jaxrs.theme;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import org.mycompany.jaxrs.ChessFigure;
 
 /**
  *
@@ -11,15 +12,17 @@ public class ThemeImpl implements Theme
 {
     private final Color blackCellColor;
     private final Color whiteCellColor;
+    private final Color borderColor;
     private int cellSize;
     private int offsetFromCanvas;
     private FigureFactory figureFactory;
 
 
-    public ThemeImpl(Color blackCellColor, Color whiteCellColor)
+    public ThemeImpl(Color blackCellColor, Color whiteCellColor, Color borderColor)
     {
         this.blackCellColor = blackCellColor;
         this.whiteCellColor = whiteCellColor;
+        this.borderColor = borderColor;
     }
 
 
@@ -51,6 +54,13 @@ public class ThemeImpl implements Theme
     }
 
 
+    @Override
+    public Color getBorderColor()
+    {
+        return borderColor;
+    }
+
+
     public void setCellSize(int cellSize)
     {
         this.cellSize = cellSize;
@@ -70,7 +80,7 @@ public class ThemeImpl implements Theme
 
 
     @Override
-    public BufferedImage getFigureByCode(char imageCode)
+    public BufferedImage getFigureByCode(ChessFigure imageCode)
     {
         return figureFactory.getImage(imageCode);
     }
